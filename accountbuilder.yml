@@ -113,7 +113,7 @@ Parameters:
 
   stackregion:
     Description: "Region for deploying the baseline template in the created account"
-    Default: "us-west-2"
+    Default: "ap-southeast-2"
     Type: String
     AllowedPattern: ".+"
     AllowedValues: ["us-east-2","us-east-1","us-west-1","us-west-2","ap-northeast-1","ap-northeast-2","ap-northeast-3","ap-south-1","ap-southeast-1","ap-southeast-2","ca-central-1","cn-north-1","cn-northwest-1","eu-central-1","eu-west-1","eu-west-2","eu-west-3","sa-east-1"]
@@ -121,23 +121,27 @@ Parameters:
 
   sourcebucket:
     Description: "Bucket holding the baseline template file"
+    Default: "eol-lambda"
     Type: String
     AllowedPattern: ".+"
 
 
   baselinetemplate:
     Description: "Baseline template to be deployed in the created account."
+    Default: "Accountbaseline.yml"
     Type: String
     AllowedPattern: ".+"
 
   AZ1Name:
     Description: Availability Zone 1 Name in Region
+    Default: "ap-southeast-2a"
     Type: String
     AllowedPattern: ".+"
     AllowedValues: ["ap-south-1a","ap-south-1b","eu-west-3a","eu-west-3b","eu-west-3c","eu-west-2a","eu-west-2b","eu-west-2c","eu-west-1a","eu-west-1b","eu-west-1c","ap-northeast-3a","ap-northeast-2a","ap-northeast-2c","ap-northeast-1a","ap-northeast-1c","ap-northeast-1d","sa-east-1a","sa-east-1c","ca-central-1a","ca-central-1b","ap-southeast-1a","ap-southeast-1b","ap-southeast-1c","ap-southeast-2a","ap-southeast-2b","ap-southeast-2c","eu-central-1a","eu-central-1b","eu-central-1c","us-east-1a","us-east-1b","us-east-1c","us-east-1d","us-east-1e","us-east-1f","us-east-2a","us-east-2b","us-east-2c","us-west-1b","us-west-1c","us-west-2a","us-west-2b","us-west-2c"]
 
   AZ2Name:
     Description: Availability Zone 2 Name in Region
+    Default: "ap-southeast-2b"
     Type: String
     AllowedPattern: ".+"
     AllowedValues: ["ap-south-1a","ap-south-1b","eu-west-3a","eu-west-3b","eu-west-3c","eu-west-2a","eu-west-2b","eu-west-2c","eu-west-1a","eu-west-1b","eu-west-1c","ap-northeast-3a","ap-northeast-2a","ap-northeast-2c","ap-northeast-1a","ap-northeast-1c","ap-northeast-1d","sa-east-1a","sa-east-1c","ca-central-1a","ca-central-1b","ap-southeast-1a","ap-southeast-1b","ap-southeast-1c","ap-southeast-2a","ap-southeast-2b","ap-southeast-2c","eu-central-1a","eu-central-1b","eu-central-1c","us-east-1a","us-east-1b","us-east-1c","us-east-1d","us-east-1e","us-east-1f","us-east-2a","us-east-2b","us-east-2c","us-west-1b","us-west-1c","us-west-2a","us-west-2b","us-west-2c"]
@@ -145,7 +149,7 @@ Parameters:
   VPCCIDR:
     Description: CIDR block for the VPC
     Type: String
-    Default: 10.229.0.0/16
+    Default: 192.168.3.0/24
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -153,7 +157,7 @@ Parameters:
   SubnetAPublicCIDR:
     Description: CIDR block for the public subnet in availability zone
     Type: String
-    Default: 10.229.10.0/24
+    Default: 192.168.3.0/26
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -161,7 +165,7 @@ Parameters:
   SubnetBPublicCIDR:
     Description: CIDR block for the public subnet in availability zone
     Type: String
-    Default: 10.229.20.0/24
+    Default: 192.168.3.128/26
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -169,7 +173,7 @@ Parameters:
   SubnetAPrivateCIDR:
     Description: CIDR block for the private subnet in availability zone
     Type: String
-    Default: 10.229.30.0/24
+    Default: 192.168.3.64/26
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -177,7 +181,7 @@ Parameters:
   SubnetBPrivateCIDR:
     Description: CIDR block for the private subnet in availability zone
     Type: String
-    Default: 10.229.40.0/24
+    Default: 192.168.3.192/26
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -185,7 +189,7 @@ Parameters:
   VPCName:
     Description: Name for the VPC
     Type: String
-    Default: Custom_VPC
+    Default: EOL_VPC
     AllowedPattern: ".+"
     ConstraintDescription: Provide the name for the VPC.
 
