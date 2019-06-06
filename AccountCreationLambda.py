@@ -140,11 +140,12 @@ def create_custom_vpc(credentials,stackregion,AZ1Name,AZ2Name,VPCCIDR,SubnetAPub
     vpc = ec2.create_vpc(CidrBlock=VPCCIDR)
     # # we can assign a name to vpc, or any resource, by using tag
     #vpc.create_tags(Tags=[{"Key": "Name", "Value": VPCName}])
-    # vpc.wait_until_available()
+    vpc.wait_until_available()
     vpc_id = vpc['Vpc']['VpcId']
     create_tags_response = ec2.create_tags(Resources = [vpc_id], Tags = [ {'Key' : 'Name' , 'Value' : VPCName}])
     print("VPC ID : {}".format(vpc_id))
 
+    time.sleep(120)
     #create an EIP for NAT Gateway
     eipnatgwA = ec2.allocate_address(Domain='vpc')
     eipnatgwB = ec2.allocate_address(Domain='vpc')

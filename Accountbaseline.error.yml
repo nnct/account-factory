@@ -76,7 +76,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info:
-          LoadTemplateFromURL : "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/ec2/sc-ec2-linux-ra.json"
+          LoadTemplateFromURL : "https://github.com/nnct/account-factory/blob/master/sc-ec2-linux-ra.yml"
 
   EC2WindowsProduct: 
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -94,7 +94,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL : "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/ec2/sc-ec2-windows-ra.json"
+          LoadTemplateFromURL : "https://github.com/nnct/account-factory/blob/master/sc-ec2-windows-ra.yml"
 
   VPCProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -112,7 +112,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info:
-          LoadTemplateFromURL : "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/vpc/sc-vpc-ra.json"
+          LoadTemplateFromURL : "https://github.com/nnct/account-factory/blob/master/sc-vpc-ra.yml"
 
   EMRProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -130,7 +130,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/emr/sc-emr-ra.json"
+          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-emr-ra.yml"
 
   RDSMySQLProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -148,7 +148,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/rds/sc-rds-mssql-ra.json"
+          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-rds-mssql-ra.yml"
 
   RDSMariaDBProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -166,7 +166,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/rds/sc-rds-mariadb-ra.json"
+          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-rds-mariadb-ra.yml"
 
   RDSPostGreSqlProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -184,7 +184,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/rds/sc-rds-postgresql-ra.json"
+          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-rds-postgresql-ra.yml"
 
   S3BucketProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -202,7 +202,7 @@ Resources:
         Description: "June 2018"
         Name: "June 2018"
         Info:
-          LoadTemplateFromURL: "https://raw.githubusercontent.com/aws-samples/aws-service-catalog-reference-architectures/master/s3/sc-s3-cidr-ra.json"
+          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-s3-cidr-ra.yml"
 
   BaselinePortfolio:
     Type: "AWS::ServiceCatalog::Portfolio"
