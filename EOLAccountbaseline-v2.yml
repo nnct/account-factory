@@ -68,15 +68,33 @@ Resources:
       Distributor: "Amazon"
       Name: "Amazon Elastic Compute Cloud (EC2) Linux"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info:
-          LoadTemplateFromURL : "https://github.com/nnct/account-factory/blob/master/sc-ec2-linux-ra.yml"
+          LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-ec2-linux-ra.json"
+          
+  EC2UbuntuProduct:
+    Type: "AWS::ServiceCatalog::CloudFormationProduct"
+    Properties:
+      AcceptLanguage: "en"
+      Description: "This product builds one Ubuntu Linux EC2 instance and create a SSM patch baseline, maintenance window, and patch task to scan for and install operating system updates the EC2 instance."
+      Distributor: "EOL"
+      Name: "Amazon Elastic Compute Cloud (EC2) Linux (Ubuntu)"
+      Owner: "Ops"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
+      SupportDescription: "Support Description"
+      ProvisioningArtifactParameters:
+      -
+        Description: "June 2019"
+        Name: "June 2019"
+        Info:
+          LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-ubuntu-linux-ra.json"
 
   EC2WindowsProduct: 
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -86,15 +104,15 @@ Resources:
       Distributor: "Amazon"
       Name: "Amazon Elastic Compute Cloud (EC2) Windows"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL : "https://github.com/nnct/account-factory/blob/master/sc-ec2-windows-ra.yml"
+          LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-ec2-windows-ra.json"
 
   VPCProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -104,15 +122,15 @@ Resources:
       Distributor: "Amazon"
       Name: "Amazon VPC"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info:
-          LoadTemplateFromURL : "https://github.com/nnct/account-factory/blob/master/sc-vpc-ra.yml"
+          LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-vpc-ra.json"
 
   EMRProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -122,15 +140,15 @@ Resources:
       Distributor: "Amazon"
       Name: "EMR Product"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-emr-ra.yml"
+          LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-emr-ra.json"
 
   RDSMySQLProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -140,15 +158,15 @@ Resources:
       Distributor: "Amazon"
       Name: "RDS MySQL Product"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-rds-mssql-ra.yml"
+          LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-rds-mssql-ra.json"
 
   RDSMariaDBProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -158,15 +176,15 @@ Resources:
       Distributor: "Amazon"
       Name: RDS MariaDB Product
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-rds-mariadb-ra.yml"
+          LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-rds-mariadb-ra.json"
 
   RDSPostGreSqlProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -176,15 +194,15 @@ Resources:
       Distributor: "Amazon"
       Name: "RDS POSTGRE SQL Product"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info: 
-          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-rds-postgresql-ra.yml"
+          LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-rds-postgresql-ra.json"
 
   S3BucketProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
@@ -194,15 +212,15 @@ Resources:
       Distributor: "Amazon"
       Name: "S3 Bucket Product"
       Owner: "IT Services"
-      SupportEmail: "support@yourcompany.com"
-      SupportUrl: "https://www.amazon.com"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
         Description: "June 2018"
         Name: "June 2018"
         Info:
-          LoadTemplateFromURL: "https://github.com/nnct/account-factory/blob/master/sc-s3-cidr-ra.yml"
+          LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-s3-cidr-ra.json"
 
   BaselinePortfolio:
     Type: "AWS::ServiceCatalog::Portfolio"

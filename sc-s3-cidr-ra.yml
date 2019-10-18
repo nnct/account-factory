@@ -13,6 +13,10 @@ Metadata:
         default: S3 Bucket Configuration
       Parameters:
       - S3AccessCIDR
+    - Label:
+        default: S3 Bucket Name
+      Parameters:
+      - S3BucketName      
 Parameters:
   S3AccessCIDR:
     Description: CIDR block to allow access to S3 bucket
@@ -23,11 +27,18 @@ Parameters:
     Description: User ARN allowed to access S3 Bucket
     Type: String
     Default: Input user ARN
+  S3BucketName:
+    Description: Bucket Name
+    Type: String
+    Default: Input Bucket Name
+    
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
     Properties:
+      BucketName:
+        Ref: S3BucketName
       AccessControl: Private
       Tags:
       - Key: Name

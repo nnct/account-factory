@@ -1,0 +1,468 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "securitygroup.template - Template for the security groups.",
+	"Metadata": {
+		"TemplateAuthor": "Yamin Niu"
+	},
+	"Parameters": {
+		"Owner": {
+			"Description": "the owner of the vpc or instance",
+			"Type": "String",
+			"Default": "EOL"
+		},
+		"Project": {
+			"Description": "Enter Project Name.",
+			"Type": "String",
+			"Default": "Nemsight"
+		},
+		"Environment": {
+			"Default": "Development",
+			"Type": "String",
+			"Description": "Application environment for which this network is being created.\ne.g. Development/Production.",
+			"AllowedValues": [
+				"Development",
+				"Integration",
+				"PreProduction",
+				"Production",
+				"QA",
+				"Staging",
+				"Test"
+			]
+		},
+		"VPCID": {
+			"Type": "AWS::EC2::VPC::Id",
+			"Description": "Select Virtual Private Cloud ID."
+		}
+	},
+	"Resources": {
+		"RDPSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"ToPort": 3389,
+						"IpProtocol": "tcp",
+						"CidrIp": "0.0.0.0/0",
+						"FromPort": 3389
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "Allow RDP traffic.",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-RDPSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		},
+		"SSHSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"ToPort": 22,
+						"IpProtocol": "tcp",
+						"CidrIp": "0.0.0.0/0",
+						"FromPort": 22
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "Allow  SSH traffic.",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-SSHSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		},
+		"MySQLSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"ToPort": 3306,
+						"IpProtocol": "tcp",
+						"CidrIp": "0.0.0.0/0",
+						"FromPort": 3306
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "Allow MySQL traffic.",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-MySQLSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		},
+		"OracleSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"ToPort": 1521,
+						"IpProtocol": "tcp",
+						"CidrIp": "0.0.0.0/0",
+						"FromPort": 1521
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "Allow Oracle DB traffic.",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-OracleSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		},
+		"PublicWebSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"ToPort": 80,
+						"IpProtocol": "tcp",
+						"CidrIp": "0.0.0.0/0",
+						"FromPort": 80
+					},
+					{
+						"ToPort": 443,
+						"IpProtocol": "tcp",
+						"CidrIp": "0.0.0.0/0",
+						"FromPort": 443
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "Allow public WEB traffic to the load balancer.",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-PublicWebSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		},
+		"PrivateWebSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"ToPort": 80,
+						"IpProtocol": "tcp",
+						"SourceSecurityGroupId": {
+							"Ref": "PublicWebSecurityGroup"
+						},
+						"FromPort": 80
+					},
+					{
+						"ToPort": 80,
+						"IpProtocol": "tcp",
+						"CidrIp": "172.0.0.0/8",
+						"FromPort": 80
+					},
+					{
+						"ToPort": 80,
+						"IpProtocol": "tcp",
+						"CidrIp": "10.0.0.0/8",
+						"FromPort": 80
+					},
+					{
+						"ToPort": 80,
+						"IpProtocol": "tcp",
+						"CidrIp": "192.168.0.0/16",
+						"FromPort": 80
+					},
+					{
+						"ToPort": 443,
+						"IpProtocol": "tcp",
+						"SourceSecurityGroupId": {
+							"Ref": "PublicWebSecurityGroup"
+						},
+						"FromPort": 443
+					},
+					{
+						"ToPort": 443,
+						"IpProtocol": "tcp",
+						"CidrIp": "172.0.0.0/8",
+						"FromPort": 443
+					},
+					{
+						"ToPort": 443,
+						"IpProtocol": "tcp",
+						"CidrIp": "10.0.0.0/8",
+						"FromPort": 443
+					},
+					{
+						"ToPort": 443,
+						"IpProtocol": "tcp",
+						"CidrIp": "192.168.0.0/16",
+						"FromPort": 443
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "Allow private WEB traffic from load balancer.",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-PrivateWebSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		},
+		"EOLSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"SecurityGroupIngress": [
+					{
+						"IpProtocol": "-1",
+						"CidrIp": "172.0.0.0/8"
+					},
+					{
+						"IpProtocol": "-1",
+						"CidrIp": "10.0.0.0/8"
+					},
+					{
+						"IpProtocol": "-1",
+						"CidrIp": "192.168.0.0/16"
+					},
+					{
+						"IpProtocol": "icmp",
+						"FromPort": 8,
+						"ToPort": -1,
+						"CidrIp": "0.0.0.0/0"
+					}
+				],
+				"SecurityGroupEgress": [
+					{
+						"IpProtocol": "-1",
+						"CidrIp": "0.0.0.0/0"
+					}
+				],
+				"VpcId": {
+					"Ref": "VPCID"
+				},
+				"GroupDescription": "EOL onsite and aws access .",
+				"Tags": [
+					{
+						"Key": "Environment",
+						"Value": {
+							"Ref": "Environment"
+						}
+					},
+					{
+						"Key": "Name",
+						"Value": {
+							"Fn::Sub": "${Environment}-EOLSecurityGroup"
+						}
+					},
+					{
+						"Key": "ServiceProvider",
+						"Value": "EOL"
+					},
+					{
+						"Key": "Owner",
+						"Value": "OPs"
+					},
+					{
+						"Key": "Project",
+						"Value": "${Project}"
+					}
+				]
+			}
+		}
+	},
+	"Outputs": {
+		"RDPSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"RDPSecurityGroup",
+					"GroupId"
+				]
+			}
+		},
+		"SSHSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"SSHSecurityGroup",
+					"GroupId"
+				]
+			}
+		},
+		"MySQLSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"MySQLSecurityGroup",
+					"GroupId"
+				]
+			}
+		},
+		"PublicWebSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"PublicWebSecurityGroup",
+					"GroupId"
+				]
+			}
+		},
+		"OracleSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"OracleSecurityGroup",
+					"GroupId"
+				]
+			}
+		},
+		"PrivateWebSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"PrivateWebSecurityGroup",
+					"GroupId"
+				]
+			}
+		},
+		"EOLSecurityGroup": {
+			"Value": {
+				"Fn::GetAtt": [
+					"EOLSecurityGroup",
+					"GroupId"
+				]
+			}
+		}
+	}
+}

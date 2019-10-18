@@ -2,6 +2,7 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Service Catalog: EC2 Reference Architecture(fdp-1oc5f3ula).",
     "Metadata": {
+		"TemplateAuthor": "Yamin Niu",        
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
                 {
@@ -16,15 +17,30 @@
                 },
                 {
                     "Label": {
-                        "default": "Windows Instance Configuration"
+                        "default": "Linux Instance Configuration"
                     },
                     "Parameters": [
-                        "WindowsInstanceType",
-                        "WindowsSubnet",
-                        "WindowsRDPPort",
+                        "LinuxInstanceType",
+                        "LinuxSubnet",
+                        "LinuxSSHPort",
                         "LatestAmiId"
+                        
+                    ]
+                },
+
+                {
+                    "Label": {
+                        "default": "Linux Instance Tags"
+                    },
+                    "Parameters": [
+                        "InstanceName",
+                        "OperatingHours",
+                        "Status",
+                        "Type"
                     ]
                 }
+
+
             ],
             "ParameterLabels": {
                 "VPC": {
@@ -36,18 +52,30 @@
                 "RemoteAccessCIDR": {
                     "default": "Remote Access CIDR Block"
                 },
-                "WindowsInstanceType": {
-                    "default": "Windows Instance Type"
+                "LinuxInstanceType": {
+                    "default": "Linux Instance Type"
                 },
-                "WindowsSubnet": {
-                    "default": "Windows Subnet"
+                "LinuxSubnet": {
+                    "default": "Linux Subnet"
                 },
-                "WindowsRDPPort": {
-                    "default": "Windows RDP Port"
+                "LinuxSSHPort": {
+                    "default": "Linux SSH Port"
                 },
-                "LatestAmiId":{
-                    "default": "SSM path for latest Windows AMI ImageId"
-                }
+                "LatestAmiId": {
+                    "default": "ubuntu  AMI"
+                },
+                "InstanceName": {
+                    "default": "Instance Name"
+                },
+                "OperatingHours": {
+                    "default": "Instance running Hours"
+                },
+                "Status": {
+                    "default": "Keep Instance Active?"
+                },
+                "Type": {
+                    "default": "On Demand or Reservced"
+                }                               
             }
         }
     },
@@ -57,18 +85,18 @@
             "Description": "Select the VPC where the EC2 instances will be created",
             "ConstraintDescription": "must be an existing VPC"
         },
-        "WindowsSubnet": {
+        "LinuxSubnet": {
             "Type": "AWS::EC2::Subnet::Id",
-            "Description": "Select subnet for Windows Instance",
+            "Description": "Select subnet for Linux Instance",
             "ConstraintDescription": "must be an existing subnet"
         },
         "RemoteAccessCIDR": {
-            "Description": "CIDR block to allow access to windows instances",
+            "Description": "CIDR block to allow access to linux instances",
             "Type": "String",
             "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
             "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
         },
-        "WindowsInstanceType": {
+        "LinuxInstanceType": {
             "AllowedValues": [
                 "t3.nano",
                 "t3.micro",
@@ -77,30 +105,70 @@
                 "t3.large",
                 "m5.large",
                 "m5.xlarge",
-                "m5.2xlarge",
-                "c5.large",
-                "c5.xlarge"
+                "c4.xlarge",
+                "r5.large",
+                "r5.xlarge"
             ],
             "Default": "t3.micro",
-            "Description": "Amazon EC2 Windows Instance Type",
+            "Description": "Amazon EC2 Linux Instance Type",
             "Type": "String"
         },
-        "WindowsRDPPort": {
-            "Description": "Windows RDP Port Number",
+        "LinuxSSHPort": {
+            "Description": "Linux SSH Port Number",
             "Type": "Number",
-            "Default": 3389,
-            "MinValue": 1025,
-            "MaxValue": 65535,
-            "ConstraintDescription": "must be a number from 1025 to 65535"
+            "Default": 22,
+            "ConstraintDescription": "must be 22 or a number from 1024 to 65535"
         },
         "KeyPair": {
-            "Description": "Name of existing EC2 key pair for Windows Instances",
+            "Description": "Name of existing EC2 key pair for Linux Instances",
             "Type": "AWS::EC2::KeyPair::KeyName"
         },
         "LatestAmiId": {
-            "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
-            "Default": "/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base"
+            "Type": "String",
+            "Default": "ami-0b76c3b150c6b1423",
+            "AllowedPattern": "^ami-[0-9a-f]+$||^$",
+            "Description": "The image ID to be used to build the EC2 Instance"
+        },
+        
+
+        "InstanceName": {
+            "Type": "String",
+            "Default": "aws-apse-ops",
+            "Description": "a name put the Tag to be used to idenitify the EC2 Instance"
+        },
+        
+        "OperatingHours": {
+            "AllowedValues": [
+                "business",
+                "all_day"
+            ],            
+            "Type": "String",
+            "Default": "business",
+            "Description": "lambda will turn off instances based on its operating hours"
+        },
+        
+        "Status": {
+            "AllowedValues": [
+                "active",
+                "inactive"
+            ],            
+            "Type": "String",
+            "Default": "active",
+            "Description": "lambda will turn on instances based on its status"
+        },
+        
+        "Type": {
+            "AllowedValues": [
+                "On Demand",
+                "RI-C",
+                "RI"
+            ],            
+            "Type": "String",
+            "Default": "On Demand",
+            "Description": "lambda will turn on) instances based on its status"
         }
+
+
     },
     "Resources": {
         "InstancePatchingRole": {
@@ -140,10 +208,10 @@
                 ]
             }
         },
-        "WindowsSecurityGroup": {
+        "LinuxSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
-                "GroupDescription": "Enables SSH Access to Windows EC2 Instance",
+                "GroupDescription": "Enables SSH Access to Linux EC2 Instance",
                 "VpcId": {
                     "Ref": "VPC"
                 },
@@ -151,10 +219,10 @@
                     {
                         "IpProtocol": "tcp",
                         "FromPort": {
-                            "Ref": "WindowsRDPPort"
+                            "Ref": "LinuxSSHPort"
                         },
                         "ToPort": {
-                            "Ref": "WindowsRDPPort"
+                            "Ref": "LinuxSSHPort"
                         },
                         "CidrIp": {
                             "Ref": "RemoteAccessCIDR"
@@ -177,19 +245,19 @@
                 ]
             }
         },
-        "WindowsInstance": {
+        "LinuxInstance": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
-                "ImageId": {"Ref": "LatestAmiId"},
+                "ImageId": { "Ref" : "LatestAmiId"},
                 "InstanceType": {
-                    "Ref": "WindowsInstanceType"
+                    "Ref": "LinuxInstanceType"
                 },
                 "SubnetId": {
-                    "Ref": "WindowsSubnet"
+                    "Ref": "LinuxSubnet"
                 },
                 "SecurityGroupIds": [
                     {
-                        "Ref": "WindowsSecurityGroup"
+                        "Ref": "LinuxSecurityGroup"
                     }
                 ],
                 "KeyName": {
@@ -201,52 +269,48 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "SC-EC2-RA-Windows-Instance"
+                        "Value": { "Ref": "InstanceName"  }   
                     },
-                    {
-                        "Key": "Description",
-                        "Value": "Service-Catalog-EC2-Reference-Architecture"
-                    }
+                   {
+                        "Key": "Operating_Hours",
+                        "Value": { "Ref": "OperatingHours"  }   
+                    },
+                   {
+                        "Key": "Status",
+                        "Value": { "Ref": "Status"  }   
+                    },
+                   {
+                        "Key": "Type",
+                        "Value": { "Ref": "Type"  }   
+                    }                    
                 ]
             }
         },
-        "WindowsPatchBaseline": {
+        "UbuntuPatchBaseline": {
             "Type": "AWS::SSM::PatchBaseline",
             "Properties": {
-                "OperatingSystem": "WINDOWS",
+                "OperatingSystem": "UBUNTU",
                 "ApprovalRules": {
                     "PatchRules": [
                         {
                             "ApproveAfterDays": 0,
                             "ComplianceLevel": "CRITICAL",
+                            "EnableNonSecurity": true,
                             "PatchFilterGroup": {
                                 "PatchFilters": [
                                     {
                                         "Key": "PRODUCT",
                                         "Values": [
-                                            "WindowsServer2016"
+                                            "Ubuntu18.04"
                                         ]
                                     },
                                     {
-                                        "Key": "CLASSIFICATION",
+                                        "Key": "PRIORITY",
                                         "Values": [
-                                            "CriticalUpdates",
-                                            "DefinitionUpdates",
-                                            "Drivers",
-                                            "SecurityUpdates",
-                                            "ServicePacks",
-                                            "UpdateRollups",
-                                            "Updates"
-                                        ]
-                                    },
-                                    {
-                                        "Key": "MSRC_SEVERITY",
-                                        "Values": [
-                                            "Critical",
+                                            "Required",
                                             "Important",
-                                            "Moderate",
-                                            "Low",
-                                            "Unspecified"
+                                            "Standard",
+                                            "Optional"
                                         ]
                                     }
                                 ]
@@ -254,8 +318,8 @@
                         }
                     ]
                 },
-                "Description": "Service Catalog EC2 Reference Architecture Patch Baseline for Microsoft Windows instace",
-                "Name": "sc-ec2-ra-windows-patch-baseline"
+                "Description": "Service Catalog EC2 Reference Architecture Patch Baseline for Ubuntu  Linux instace",
+                "Name": "sc-ec2-ra-ubuntu-patch-baseline"
             }
         },
         "MaintenanceWindowRole": {
@@ -287,19 +351,19 @@
         "MaintenanceWindow": {
             "Type": "AWS::SSM::MaintenanceWindow",
             "Properties": {
-                "Description": "Maintenance window to allow for patching windows instances",
+                "Description": "Maintenance window to allow for patching ubuntu Linux instances",
                 "AllowUnassociatedTargets": false,
                 "Cutoff": 2,
                 "Schedule": "cron(* 17 * * ? *)",
                 "Duration": 6,
-                "Name": "sc-ec2-ra-windows-maintenance-window"
+                "Name": "sc-ec2-ra-ubuntu-maintenance-window"
             }
         },
-        "WindowsMainteanceWindowTarget": {
+        "LinuxMainteanceWindowTarget": {
             "Type": "AWS::SSM::MaintenanceWindowTarget",
             "Properties": {
                 "OwnerInformation": "Service Catalog EC2 Reference Architecture",
-                "Description": "Service Catalog EC2 Reference Architecture Maintenance Window for Microsoft Windows Instances",
+                "Description": "Service Catalog EC2 Reference Architecture - Patch Maintenance for Amazon Linux Instances",
                 "WindowId": {
                     "Ref": "MaintenanceWindow"
                 },
@@ -309,19 +373,19 @@
                         "Key": "InstanceIds",
                         "Values": [
                             {
-                                "Ref": "WindowsInstance"
+                                "Ref": "LinuxInstance"
                             }
                         ]
                     }
                 ],
-                "Name": "sc-ec2-ra-windows-patch-targets"
+                "Name": "sc-ec2-ra-linux-patch-targets"
             }
         },
-        "WindowsMaintenanceWindowTaskScan": {
+        "LinuxMaintenanceWindowTaskScan": {
             "Type": "AWS::SSM::MaintenanceWindowTask",
             "Properties": {
                 "MaxErrors": 1,
-                "Description": "Service Catalog EC2 Reference Architecture Maintenance Window Task: Scan for update for Microsoft Windows Instance",
+                "Description": "Service Catalog EC2 Reference Architecture Maintenance Window Task: Scan for update for Amazon Linux Instance",
                 "ServiceRoleArn": {
                     "Fn::GetAtt": [
                         "MaintenanceWindowRole",
@@ -335,12 +399,12 @@
                         "Key": "InstanceIds",
                         "Values": [
                             {
-                                "Ref": "WindowsInstance"
+                                "Ref": "LinuxInstance"
                             }
                         ]
                     }
                 ],
-                "Name": "patch-sc-ec2-ra-windows-instances",
+                "Name": "patch-sc-ec2-ra-linux-instances",
                 "TaskArn": "AWS-RunPatchBaseline",
                 "WindowId": {
                     "Ref": "MaintenanceWindow"
@@ -355,11 +419,11 @@
                 "TaskType": "RUN_COMMAND"
             }
         },
-        "WindowsMaintenanceWindowTask": {
+        "LinuxMaintenanceWindowTaskInstall": {
             "Type": "AWS::SSM::MaintenanceWindowTask",
             "Properties": {
                 "MaxErrors": 1,
-                "Description": "Service Catalog EC2 Reference Architecture Maintenance Window Task: Install update for Microsoft Windows Instance",
+                "Description": "Service Catalog EC2 Reference Architecture Maintenance Window Task: Install update for Amazon Linux Instance",
                 "ServiceRoleArn": {
                     "Fn::GetAtt": [
                         "MaintenanceWindowRole",
@@ -373,12 +437,12 @@
                         "Key": "InstanceIds",
                         "Values": [
                             {
-                                "Ref": "WindowsInstance"
+                                "Ref": "LinuxInstance"
                             }
                         ]
                     }
                 ],
-                "Name": "patch-sc-ec2-ra-windows-instances",
+                "Name": "patch-sc-ec2-ra-linux-instances",
                 "TaskArn": "AWS-RunPatchBaseline",
                 "WindowId": {
                     "Ref": "MaintenanceWindow"
@@ -403,25 +467,25 @@
                 "Ref": "AWS::Region"
             }
         },
-        "WindowsInstancePrivateIpAddress": {
+        "LinuxInstanceId": {
+            "Value": {
+                "Ref": "LinuxInstance"
+            }
+        },
+        "LinuxInstancePrivateIpAddress": {
             "Value": {
                 "Fn::GetAtt": [
-                    "WindowsInstance",
+                    "LinuxInstance",
                     "PrivateIp"
                 ]
             }
         },
-        "WindosInstanceAvailabilityZone": {
+        "LinuxInstanceAvailabilityZone": {
             "Value": {
                 "Fn::GetAtt": [
-                    "WindowsInstance",
+                    "LinuxInstance",
                     "AvailabilityZone"
                 ]
-            }
-        },
-        "WindowsInstanceId": {
-            "Value": {
-                "Ref": "WindowsInstance"
             }
         },
         "KeyPair": {
@@ -429,19 +493,19 @@
                 "Ref": "KeyPair"
             }
         },
-        "WindowsSubet": {
+        "LinuxSSHPort": {
             "Value": {
-                "Ref": "WindowsSubnet"
+                "Ref": "LinuxSSHPort"
             }
         },
-        "WindowsInstanceType": {
+        "LinuxSubet": {
             "Value": {
-                "Ref": "WindowsInstanceType"
+                "Ref": "LinuxSubnet"
             }
         },
-        "WindowsRDPPort": {
+        "LinuxInstanceType": {
             "Value": {
-                "Ref": "WindowsRDPPort"
+                "Ref": "LinuxInstanceType"
             }
         },
         "RemoteAccessCIDR": {
@@ -469,9 +533,9 @@
                 "Ref": "MaintenanceWindowRole"
             }
         },
-        "SSMWindowsPatchBaseline": {
+        "SSMubuntuPatchBaseline": {
             "Value": {
-                "Ref": "WindowsPatchBaseline"
+                "Ref": "UbuntuPatchBaseline"
             }
         }
     }

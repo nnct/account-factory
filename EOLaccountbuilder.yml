@@ -15,8 +15,6 @@
 #  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #  */
 
-
-
 AWSTemplateFormatVersion: 2010-09-09
 Description: Account Builder Template.
 Metadata:

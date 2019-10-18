@@ -65,7 +65,7 @@ Resources:
     Properties:
       AcceptLanguage: "en"
       Description: "This product builds one Amazon Linux EC2 instance and create a SSM patch baseline, maintenance window, and patch task to scan for and install operating system updates the EC2 instance."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "Amazon Elastic Compute Cloud (EC2) Linux"
       Owner: "IT Services"
       SupportEmail: "operations@energyone.com"
@@ -73,26 +73,44 @@ Resources:
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info:
           LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-ec2-linux-ra.json"
+          
+  EC2UbuntuProduct:
+    Type: "AWS::ServiceCatalog::CloudFormationProduct"
+    Properties:
+      AcceptLanguage: "en"
+      Description: "This product builds one Ubuntu Linux EC2 instance and create a SSM patch baseline, maintenance window, and patch task to scan for and install operating system updates the EC2 instance."
+      Distributor: "EOL"
+      Name: "Amazon Elastic Compute Cloud (EC2) Linux (Ubuntu)"
+      Owner: "Ops"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
+      SupportDescription: "Support Description"
+      ProvisioningArtifactParameters:
+      -
+        Description: "June 2019"
+        Name: "June 2019"
+        Info:
+          LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-ubuntu-linux-ra.json"
 
   EC2WindowsProduct: 
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
     Properties:
       AcceptLanguage: "en"
       Description: "This product builds one Amazon Windows EC2 instance and create a SSM patch baseline, maintenance window, and patch task to scan for and install operating system updates the EC2 instance."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "Amazon Elastic Compute Cloud (EC2) Windows"
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info: 
           LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-ec2-windows-ra.json"
 
@@ -101,34 +119,52 @@ Resources:
     Properties:
       AcceptLanguage: "en"
       Description: "This product builds one Amazon VPC with Public Subnets, Private Subnets, Route Tables, NAT Gateway and Internet Gateway"
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "Amazon VPC"
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info:
           LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-vpc-ra.json"
-
+          
+  SGProduct:
+    Type: "AWS::ServiceCatalog::CloudFormationProduct"
+    Properties:
+      AcceptLanguage: "en"
+      Description: "This product builds Security Groups"
+      Distributor: "EOL"
+      Name: "Amazon SG"
+      Owner: "OPS"
+      SupportEmail: "operations@energyone.com"
+      SupportUrl: "https://www.energyone.com"
+      SupportDescription: "Support Description"
+      ProvisioningArtifactParameters:
+      -
+        Description: "2019.10.18"
+        Name: "2019.10.18"
+        Info:
+          LoadTemplateFromURL : "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-sg-ra.json"         
+  
   EMRProduct:
     Type: "AWS::ServiceCatalog::CloudFormationProduct"
     Properties:
       AcceptLanguage: "en"
       Description: "EMR product creates an Amazon Elastic MapReduce cluster in the VPC and Subnets selected by the end user. A remote access security group is also created to allow for a bastion host to connect to the instances used by EMR via SSH."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "EMR Product"
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info: 
           LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-emr-ra.json"
 
@@ -137,16 +173,16 @@ Resources:
     Properties:
       AcceptLanguage: "en"
       Description: "This product allows the user to launch a RDS MySQL DB as either single instance databases or multi-availability zone databases."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "RDS MySQL Product"
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info: 
           LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-rds-mssql-ra.json"
 
@@ -155,16 +191,16 @@ Resources:
     Properties:
       AcceptLanguage: "en"
       Description: "This product allows the user to launch a RDS Maria DB as either single instance databases or multi-availability zone databases."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: RDS MariaDB Product
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info: 
           LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-rds-mariadb-ra.json"
 
@@ -173,16 +209,16 @@ Resources:
     Properties:
       AcceptLanguage: "en"
       Description: "This product allows the user to launch a RDS POSTGRE SQL as either single instance databases or multi-availability zone databases."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "RDS POSTGRE SQL Product"
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info: 
           LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-rds-postgresql-ra.json"
 
@@ -191,16 +227,16 @@ Resources:
     Properties:
       AcceptLanguage: "en"
       Description: "This product allows the user to create an S3 Bucket locking down the access to a specific CIDR."
-      Distributor: "Amazon"
+      Distributor: "EOL"
       Name: "S3 Bucket Product"
-      Owner: "IT Services"
+      Owner: "OPS"
       SupportEmail: "operations@energyone.com"
       SupportUrl: "https://www.energyone.com"
       SupportDescription: "Support Description"
       ProvisioningArtifactParameters:
       -
-        Description: "June 2018"
-        Name: "June 2018"
+        Description: "2019.10.18"
+        Name: "2019.10.18"
         Info:
           LoadTemplateFromURL: "https://eol-lambda.s3-ap-southeast-2.amazonaws.com/awsservicecatalog-products/sc-s3-cidr-ra.json"
 
@@ -217,6 +253,12 @@ Resources:
       ProductId: !Ref EC2LinuxProduct
       PortfolioId: !Ref BaselinePortfolio
 
+  UbuntuAssociation:
+    Type: "AWS::ServiceCatalog::PortfolioProductAssociation"
+    Properties:
+      ProductId: !Ref EC2UbuntuProduct
+      PortfolioId: !Ref BaselinePortfolio      
+      
   WindowsAssociation:
     Type: "AWS::ServiceCatalog::PortfolioProductAssociation"
     Properties:
@@ -228,7 +270,11 @@ Resources:
      Properties:
        ProductId: !Ref VPCProduct
        PortfolioId: !Ref BaselinePortfolio
-
+  SGAssociation:
+     Type: "AWS::ServiceCatalog::PortfolioProductAssociation"
+     Properties:
+       ProductId: !Ref SGProduct
+       PortfolioId: !Ref BaselinePortfolio      
   EMRAssociation:
      Type: "AWS::ServiceCatalog::PortfolioProductAssociation"
      Properties:
